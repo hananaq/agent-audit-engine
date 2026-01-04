@@ -2,4 +2,5 @@
 venv/
 backend/.env.secret
 backend/logs/app.log
+backend/test_*.py
 TODO.md
