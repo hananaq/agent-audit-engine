@@ -1,0 +1,5 @@
+.DS_Store
+venv/
+backend/.env.secret
+backend/logs/app.log
+TODO.md
