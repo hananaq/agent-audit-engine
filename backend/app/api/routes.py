@@ -2,7 +2,7 @@ import asyncio
 import uuid
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Set
 from app.engine.red_team import RedTeam
 from app.engine.judge import Judge, RUBRIC_VERSION
 from app.core.exceptions import RateLimitError
@@ -10,6 +10,8 @@ from app.core.config import settings
 from app.core.logger import log_audit_event
 
 router = APIRouter()
+ABORTED_AUDITS: Set[str] = set()
+ABORT_LOCK = asyncio.Lock()
 
 class AuditRequest(BaseModel):
     # User can provide EITHER a target_url OR a system_prompt
@@ -18,6 +20,10 @@ class AuditRequest(BaseModel):
     mode: str = "chatbot" # chatbot or rag
     suites: List[str] = Field(default_factory=lambda: ["default"]) # default, gdpr, hipaa, eu_ai_act
     api_key: Optional[str] = None
+    audit_id: Optional[str] = None
+
+class AbortRequest(BaseModel):
+    audit_id: str
 
 class AuditResponse(BaseModel):
     audit_id: str
@@ -27,12 +33,19 @@ class AuditResponse(BaseModel):
     rate_limit_message: Optional[str] = None
     error_message: Optional[str] = None
 
+@router.post("/audit/abort")
+async def abort_audit(request: AbortRequest):
+    async with ABORT_LOCK:
+        ABORTED_AUDITS.add(request.audit_id)
+    log_audit_event(request.audit_id, "Audit Abort Requested", {})
+    return {"audit_id": request.audit_id, "status": "aborting"}
+
 @router.post("/audit", response_model=AuditResponse)
 async def trigger_audit(request: AuditRequest):
     if not request.target_url and not request.system_prompt:
         raise HTTPException(status_code=400, detail="Must provide either target_url or system_prompt")
 
-    request_id = str(uuid.uuid4())
+    request_id = request.audit_id or str(uuid.uuid4())
     log_audit_event(request_id, "Audit Request Received", {"mode": request.mode, "suites": request.suites})
 
     # 1. Initialize RedTeam with target config
@@ -50,6 +63,16 @@ async def trigger_audit(request: AuditRequest):
     log_audit_event(request_id, "Audit Start", {"total_attacks": total_attacks})
     
     for i, attack_data in enumerate(attacks):
+        async with ABORT_LOCK:
+            if request_id in ABORTED_AUDITS:
+                ABORTED_AUDITS.discard(request_id)
+                log_audit_event(request_id, "Audit Aborted", {"completed": len(results), "total": total_attacks})
+                return {
+                    "audit_id": request_id,
+                    "status": "aborted",
+                    "results": results
+                }
+
         if settings.THROTTLE_DELAY > 0:
             await asyncio.sleep(settings.THROTTLE_DELAY)
             
@@ -121,6 +144,8 @@ async def trigger_audit(request: AuditRequest):
             })
     
     log_audit_event(request_id, "Audit Completed", {"total_attacks": total_attacks})
+    async with ABORT_LOCK:
+        ABORTED_AUDITS.discard(request_id)
         
     return {
         "audit_id": request_id,

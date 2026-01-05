@@ -5,6 +5,7 @@ import time
 import concurrent.futures
 import os
 import sys
+import uuid
 
 from pathlib import Path
 
@@ -81,8 +82,120 @@ st.html("""
     }
     
     .main {
-        background-color: #020617;
+        background-color: #050b1a;
         color: #f8fafc;
+    }
+.st-emotion-cache-1ffuo7c
+        {
+         background-color: #050b1a;
+        }
+    .stApp {
+        background-color: #050b1a;
+        color: #f8fafc;
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: #081225;
+        color: #e2e8f0;
+    }
+
+    section[data-testid="stSidebar"] * {
+        color: inherit;
+    }
+
+    div[data-testid="stAppToolbar"] {
+        background-color: #081225;
+        color: #e2e8f0;
+    }
+
+    div[data-testid="stAppToolbar"] * {
+        color: inherit;
+    }
+
+    .stTextInput input,
+    .stTextArea textarea,
+    .stSelectbox div[data-baseweb="select"] > div,
+    .stMultiSelect div[data-baseweb="select"] > div {
+        background-color: #0f172a !important;
+        color: #e2e8f0 !important;
+        border: 1px solid rgba(148, 163, 184, 0.6) !important;
+        border-width: 1px !important;
+    }
+
+    .stTextInput input::placeholder {
+        color: rgba(226, 232, 240, 0.7) !important;
+    }
+
+    .stTextInput label,
+    .stTextArea label,
+    .stSelectbox label,
+    .stMultiSelect label,
+    .stNumberInput label {
+        color: #e2e8f0 !important;
+        font-weight: 600;
+    }
+
+    .stTextInput input:focus,
+    .stTextArea textarea:focus,
+    .stSelectbox div[data-baseweb="select"] > div:focus-within,
+    .stMultiSelect div[data-baseweb="select"] > div:focus-within {
+        border: 1px solid rgba(96, 165, 250, 0.9) !important;
+        box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.6);
+        outline: none !important;
+    }
+
+    .stTextInput div[data-baseweb="input"] > div,
+    .stTextInput div[data-baseweb="input"] > div:focus-within,
+    .stTextInput div[data-baseweb="input"] > div:focus,
+    .stTextInput div[data-baseweb="input"] > div:focus-visible {
+        border-color: rgba(148, 163, 184, 0.6) !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .stTextInput div[data-baseweb="input"] [data-baseweb="base-input"],
+    .stTextInput div[data-baseweb="input"] [data-baseweb="base-input"]:focus-within {
+        border-color: rgba(148, 163, 184, 0.6) !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .stTextInput div[data-baseweb="input"] input:focus {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .stTextInput div[data-baseweb="input"] input:focus-visible,
+    .stTextInput div[data-baseweb="input"] [aria-invalid="true"] {
+        box-shadow: none !important;
+        outline: none !important;
+        border-color: rgba(148, 163, 184, 0.6) !important;
+    }
+
+    .stTextInput div[data-baseweb="input"] {
+        box-shadow: none !important;
+        outline: none !important;
+        border-color: rgba(148, 163, 184, 0.6) !important;
+    }
+        .st-emotion-cache-1ne20ew
+        {    border: 1px solid rgb(205 205 205 / 20%);
+        }
+
+    .stTextInput *:focus,
+    .stTextInput *:focus-visible {
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .stMultiSelect div[data-baseweb="tag"] {
+        max-width: none !important;
+        white-space: normal !important;
+    }
+
+    .stMultiSelect div[data-baseweb="tag"] span {
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: initial !important;
     }
     
     .stButton>button {
@@ -102,11 +215,40 @@ st.html("""
         box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         background: linear-gradient(90deg, #3b82f6, #6366f1);
     }
+
+    .stButton>button:disabled,
+    .stButton>button[disabled] {
+        background: #475569 !important;
+        color: #e2e8f0 !important;
+        box-shadow: none !important;
+        cursor: not-allowed !important;
+        opacity: 0.7 !important;
+    }
+
+    .stButton>button:disabled:hover,
+    .stButton>button[disabled]:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    button[data-testid="baseButton-secondary"],
+    button[kind="secondary"] {
+        background: linear-gradient(90deg, #dc2626, #b91c1c) !important;
+        color: #fff !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3) !important;
+    }
+    
+    button[data-testid="baseButton-secondary"]:hover,
+    button[kind="secondary"]:hover {
+        background: linear-gradient(90deg, #ef4444, #dc2626) !important;
+        box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4) !important;
+    }
     
     .glass-card, div[data-testid="stVerticalBlockBorderWrapper"] {
-        background: rgba(8, 12, 24, 0.95) !important;
+        background: rgba(7, 16, 34, 0.96) !important;
         backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
         border-radius: 1.5rem !important;
         padding: 0.5rem;
     }
@@ -136,6 +278,10 @@ st.html("""
         text-transform: uppercase;
         letter-spacing: 0.05em;
         white-space: nowrap;
+        line-height: 1;
+        height: 1.4rem;
+        display: inline-flex;
+        align-items: center;
     }
     
     .badge-lite { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: #60a5fa; }
@@ -158,11 +304,41 @@ st.html("""
     
     .issue-card {
         padding: 1.25rem;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(8, 20, 42, 0.95);
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-left: 6px solid #3b82f6;
         border-radius: 0.75rem;
         margin-bottom: 1rem;
+    }
+
+    div[data-testid="stExpander"] {
+        margin-top: -0.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    div[data-testid="stExpander"] details,
+    div[data-testid="stExpander"] summary {
+        background: #0b1f3a !important;
+        color: #e2e8f0 !important;
+        border-radius: 0.75rem;
+    }
+
+    div[data-testid="stExpander"] summary {
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 0.4rem 0.75rem;
+    }
+
+    div[data-testid="stExpander"] summary:hover,
+    div[data-testid="stExpander"] summary:focus,
+    div[data-testid="stExpander"] summary:focus-visible {
+        background: #102447 !important;
+        color: #e2e8f0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    div[data-testid="stExpander"] summary svg {
+        fill: #94a3b8 !important;
     }
     
     .issue-card b {
@@ -191,6 +367,15 @@ st.html("""
         margin-right: 0.3rem;
         margin-top: 0.3rem;
         text-transform: uppercase;
+    }
+
+    div[data-testid="stAlert"] {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(148, 163, 184, 0.35) !important;
+    }
+
+    div[data-testid="stAlert"] p {
+        color: #e2e8f0 !important;
     }
 </style>
 """)
@@ -238,7 +423,7 @@ with st.sidebar:
         judge_text = "Multi-provider ensemble (Llama, Gemini, DeepSeek) settles disputes for maximum precision."
 
     st.html(f"""
-        <div class="glass-card" style="padding: 1rem; border-radius: 1rem !important; background: rgba(15, 23, 42, 0.4) !important;">
+        <div class="glass-card" style="padding: 1rem; border-radius: 1rem !important; background: #0b1f3a !important;">
             <h3 style="color: white; margin-top: 0; font-size: 1.1rem;">How it Works</h3>
             <div style="margin-bottom: 0.75rem;">
                 <b style="color: #60a5fa; font-size: 0.85rem;">🛡️ Adversarial RedTeaming</b><br/>
@@ -308,48 +493,106 @@ with col1:
         st.write("")
         if "audit_running" not in st.session_state:
             st.session_state.audit_running = False
+        if "audit_future" not in st.session_state:
+            st.session_state.audit_future = None
+        if "audit_executor" not in st.session_state:
+            st.session_state.audit_executor = None
+        if "audit_id" not in st.session_state:
+            st.session_state.audit_id = None
+        if "audit_start" not in st.session_state:
+            st.session_state.audit_start = None
+        if "audit_total" not in st.session_state:
+            st.session_state.audit_total = None
+        if "abort_requested" not in st.session_state:
+            st.session_state.abort_requested = False
 
-        if st.button("Initiate Audit Sequence", disabled=st.session_state.audit_running):
+        if st.button("Initiate Audit Sequence", type="primary", disabled=st.session_state.audit_running):
             if not target_url:
                 st.error("Please provide a target endpoint URL.")
             else:
+                audit_id = str(uuid.uuid4())
                 st.session_state.audit_running = True
-                progress = st.progress(0, text="Running audit...")
-                total_attacks = _count_attacks_for_suites(mode, suites)
-                estimated_seconds = max(10, total_attacks * 8)
+                st.session_state.audit_id = audit_id
+                st.session_state.abort_requested = False
+                st.session_state.audit_start = time.time()
+                st.session_state.audit_total = _count_attacks_for_suites(mode, suites)
 
-                def _run_audit():
+                def _run_audit(audit_id_value: str, target: str, selected_suites: list[str], selected_mode: str):
                     return httpx.post(
                         "http://localhost:8000/api/v1/audit",
-                        json={"target_url": target_url, "suites": suites, "mode": mode},
+                        json={
+                            "audit_id": audit_id_value,
+                            "target_url": target,
+                            "suites": selected_suites,
+                            "mode": selected_mode
+                        },
                         timeout=httpx.Timeout(3600.0, connect=10.0)
                     )
 
-                with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
-                    future = executor.submit(_run_audit)
-                    start = time.time()
-                    while not future.done():
-                        elapsed = time.time() - start
-                        pct = min(95, int((elapsed / estimated_seconds) * 100))
-                        progress.progress(pct, text=f"Running audit... {pct}%")
-                        time.sleep(0.5)
-                    try:
-                        resp = future.result()
-                        progress.progress(100, text="Finalizing results...")
-                        if resp.status_code == 200:
-                            st.session_state.results = resp.json()
-                            st.rerun()
-                        else:
-                            st.error(f"Audit Failed: {resp.text}")
-                    except Exception as e:
-                        st.error(f"Connection Error: {str(e)}")
-                    finally:
-                        st.session_state.audit_running = False
+                if st.session_state.audit_executor is None:
+                    st.session_state.audit_executor = concurrent.futures.ThreadPoolExecutor(max_workers=1)
+
+                st.session_state.audit_future = st.session_state.audit_executor.submit(
+                    _run_audit, audit_id, target_url, suites, mode
+                )
+                st.rerun()
+
+        if st.session_state.audit_running and st.session_state.audit_future is not None:
+            progress_placeholder = st.empty()
+            estimated_seconds = max(10, (st.session_state.audit_total or 1) * 8)
+            elapsed = time.time() - (st.session_state.audit_start or time.time())
+            pct = min(95, int((elapsed / estimated_seconds) * 100))
+            progress = progress_placeholder.progress(pct, text=f"Running audit... {pct}%")
+
+            if st.button("Abort Test", type="secondary"):
+                st.session_state.abort_requested = True
+                try:
+                    httpx.post(
+                        "http://localhost:8000/api/v1/audit/abort",
+                        json={"audit_id": st.session_state.audit_id},
+                        timeout=httpx.Timeout(10.0, connect=5.0)
+                    )
+                except Exception as e:
+                    st.error(f"Abort request failed: {str(e)}")
+
+                if st.session_state.audit_future:
+                    st.session_state.audit_future.cancel()
+
+                st.session_state.audit_running = False
+                st.session_state.audit_future = None
+                st.session_state.audit_id = None
+                st.session_state.audit_start = None
+                st.session_state.audit_total = None
+                st.session_state.results = None
+                progress_placeholder.empty()
+                st.rerun()
+
+            if st.session_state.audit_future.done():
+                try:
+                    resp = st.session_state.audit_future.result()
+                    progress.progress(100, text="Finalizing results...")
+                    if resp.status_code == 200:
+                        st.session_state.results = resp.json()
+                    else:
+                        st.error(f"Audit Failed: {resp.text}")
+                except Exception as e:
+                    st.error(f"Connection Error: {str(e)}")
+                finally:
+                    st.session_state.audit_running = False
+                    st.session_state.audit_future = None
+                    st.session_state.audit_id = None
+                    st.session_state.audit_start = None
+                    st.session_state.audit_total = None
+                    progress_placeholder.empty()
+                    st.rerun()
+            else:
+                time.sleep(0.5)
+                st.rerun()
         
         
 
 with col2:
-    if "results" in st.session_state:
+    if st.session_state.get("results"):
         results = st.session_state.results
         backend_results = results.get("results", [])
         
